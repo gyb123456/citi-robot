@@ -8,18 +8,18 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @Data
 @AllArgsConstructor
-@Document(indexName="robot", type = "news")
+@Document(indexName="robot")
 public class RobotPo {
     @Id
     private Long id;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, fielddata=true)
     private String question;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, fielddata=true)
     private String answer;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text, fielddata=true)
     private String label;
 
 

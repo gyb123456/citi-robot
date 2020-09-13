@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("robot")
@@ -33,22 +34,37 @@ public class RobotCtrl {
     public void init(){
         elasticService.createIndex();
 
-        List<RobotPo> list = new ArrayList<>();
-        list.add(new RobotPo(1L,"question1","answer1","label-1"));
-        list.add(new RobotPo(2L,"question2","answer2","label-2"));
-        list.add(new RobotPo(3L,"question3","answer3","label-3"));
-        elasticService.saveAll(list);
+//        List<RobotPo> list = new ArrayList<>();
+//        list.add(new RobotPo(1L,"question1","answer1","label-1"));
+//        list.add(new RobotPo(2L,"question2","answer2","label-2"));
+//        list.add(new RobotPo(3L,"question3","answer3","label-3"));
+//        elasticService.saveAll(list);
     }
 
     @GetMapping("/testSave")
     public void testSave(Long id) {
-        RobotPo robotPo = new RobotPo(id,"question"+id,"answer"+id,"label-"+id);
+        RobotPo robotPo = new RobotPo(id,"question"+id,"answer"+id,"label-"+id+", rain");
         elasticService.save(robotPo);
     }
 
+    @GetMapping("/findById")
+    public Optional<RobotPo> findById(Long id) {
+        return elasticService.findById(id);
+    }
+
     @GetMapping("/findByLabel")
-    public Page<RobotPo> findByLabel(String label){
-        return elasticService.findByLabel(label);
+    public Iterator<RobotPo> findByLabel(String label){
+        return elasticService.findByLabel(label).iterator();
+    }
+
+    @GetMapping("/findByLabelContaining")
+    public Iterator<RobotPo> findByLabelContaining(String label){
+        return elasticService.findByLabelContaining(label).iterator();
+    }
+
+    @GetMapping("/findByQuestion")
+    public Iterator<RobotPo> findByQuestion(String question){
+        return elasticService.findByQuestion(question).iterator();
     }
 
     @GetMapping("/findAll")

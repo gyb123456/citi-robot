@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ElasticService {
@@ -30,8 +31,20 @@ public class ElasticService {
         elasticRepository.save(robotPo);
     }
 
+    public Optional<RobotPo> findById(Long id) {
+        return elasticRepository.findById(id);
+    }
+
     public Page<RobotPo> findByLabel(String label){
         return elasticRepository.findByLabel(label, pageable);
+    }
+
+    public Page<RobotPo> findByLabelContaining(String label){
+        return elasticRepository.findByLabelContaining(label,pageable);
+    }
+
+    public Page<RobotPo> findByQuestion(String question){
+        return elasticRepository.findByQuestion(question, pageable);
     }
 
     public void saveAll(List<RobotPo> list) {
